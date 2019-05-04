@@ -1,4 +1,5 @@
 from django.shortcuts import render
+#from .models import Transaction
 
 # Create your views here.
 def transactions_list(request):
