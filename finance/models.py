@@ -9,7 +9,7 @@ class Transaction(models.Model):
 	subcategory = models.ForeignKey('Subcategory', verbose_name='Підкатегорія', on_delete=models.PROTECT, limit_choices_to={})
 	from_account = models.ForeignKey('Account', verbose_name='З рахунку', on_delete=models.PROTECT)
 	on_account = models.ForeignKey('Account', verbose_name='На рахунок', on_delete=models.PROTECT)
-	date_time = models.DateTimeField(default=timezone.now)
+	create_datetime = models.DateTimeField(default=timezone.now)
 	notes = models.TextField()
 	
 	class Meta(object):
@@ -18,4 +18,8 @@ class Transaction(models.Model):
 		verbose_name_plural = 'Трансакції'
 		
 	def __str__(self):
-		return '{}, {} {}, {}'.format(self.notes, self.amount, self.currency, self.date_time)
+		return '{}, {} {}, {}'.format(self.notes, self.amount, self.currency, self.create_datetime)
+		
+		
+class Account(models.Model):
+	
