@@ -2,31 +2,32 @@ from django.db import models
 from django.utils import timezone
 # Create your models here.
 class Transaction(models.Model):
-	amount = models.DecimalField('Сума', max_digits=11, decimal_places=2, default='00000,00')
-	currencies = models.ForeignKey('Currency', verbose_name='Валюта', on_delete=models.PROTECT, default=lambda: Currency.objects.get(is_default=True)
+	amount = models.DecimalField('Сума', max_digits=11, decimal_places=2, default=0, validators=[MinValueValidator(0)])
+	currencies = models.ForeignKey('Currency', verbose_name='Валюта', on_delete=models.PROTECT)
 	types = models.ForeignKey('Type', verbose_name='Тип', on_delete=models.PROTECT)
-	categories = models.ForeignKey('Category', verbose_name='Категорія', on_delete=models.PROTECT, limit_choices_to={})
-	subcategories = models.ForeignKey('Subcategory', verbose_name='Підкатегорія', on_delete=models.PROTECT, limit_choices_to={})
-	from_account = models.ForeignKey('Account', verbose_name='З рахунку', on_delete=models.PROTECT)
-	on_account = models.ForeignKey('Account', verbose_name='На рахунок', on_delete=models.PROTECT)
+	categories = models.ForeignKey('Category', verbose_name='Категорія', on_delete=models.PROTECT, limit_choices_to={}, blank=True)
+	subcategories = models.ForeignKey('Subcategory', verbose_name='Підкатегорія', on_delete=models.PROTECT, limit_choices_to={}, blank=True, null=True)
+	from_account = models.ForeignKey('Account', related_name='from_account_set', verbose_name='З рахунку', on_delete=models.PROTECT, blank=True, null=True)
+	on_account = models.ForeignKey('Account', related_name='on_account_set', verbose_name='На рахунок', on_delete=models.PROTECT, blank=True, null=True)
 	create_datetime = models.DateTimeField('Дата здійснення', default=timezone.now)
-	notes = models.TextField('Додаткові відомості')
+	place = models.ForeignKey('Place', verbose_name='Місце', on_delete=models.PROTECT, blank=True, default='')
+	notes = models.TextField('Додаткові відомості', blank=True)
 	
 	class Meta(object):
-		ordering = ['-date_time']
+		ordering = ['-create_datetime']
 		verbose_name = 'Трансакція'
 		verbose_name_plural = 'Трансакції'
 		
 	def __str__(self):
-		return '{}, {} {}, {}'.format(self.notes, self.amount, self.currency, self.create_datetime)
+		return '{}, {} {}, {}'.format(self.notes, self.amount, self.currencies, self.create_datetime)
 		
 		
 class Account(models.Model):
-	title = model.CharField('Назва', max_length=255)
-	amount = model.DecimalField('Залишок', max_digits=11, decimal_places=2, default='00000,00')
-	notes = models.TextField('Додаткові відомості')
+	title = models.CharField('Назва', max_length=255)
+	amount = models.DecimalField('Залишок', max_digits=11, decimal_places=2, default=0, validators=[MinValueValidator(0)])
+	notes = models.TextField('Додаткові відомості', blank=True)
 	create_datetime = models.DateTimeField('Дата створення', default=timezone.now)
-	is_default = model.BooleanField('За замовчуванням')
+	is_default = models.BooleanField('За замовчуванням')
 	
 	class Meta(object):
 		ordering = ['amount']
@@ -36,21 +37,29 @@ class Account(models.Model):
 	def __str__(self):
 		return '{}, {}'.format(self.title, self.amount)
 		
+	def increase(self):
+			self.amount += 
+			
+	def decrease(self):
+		try:
+			self.amount -= 
+		except ValidationError:
+			return 'На рахунку недостатньо коштів'
+		
 class Currency(models.Model):
-	name = model.CharField('Назва', max_length=5)
-	full_name = model.CharField('Повна назва', max_length=100)
-	is_default = model.BooleanField('За замовчуванням')
+	name = models.CharField('Назва', max_length=5)
+	full_name = models.CharField('Повна назва', max_length=100, blank=True)
+	is_default = models.BooleanField('За замовчуванням')
 	
 	class Meta(object):
 		verbose_name = 'Валюта'
 		verbose_name_plural = 'Валюти'
 		
 	def __str__(self):
-		return '{}, {}'.format(self.full_name, self.name)
+		return '{}, {}'.format(self.name)
 		
-class Type(model.Models):
-	name = model.CharField('Назва', max_length=100)
-	categories = models.ForeignKey('Category', verbose_name='Категорії', on_delete=models.PROTECT)
+class Type(models.Model):
+	name = models.CharField('Назва', max_length=100)
 	
 	class Meta(object):
 		verbose_name = 'Тип'
@@ -59,9 +68,9 @@ class Type(model.Models):
 	def __str__(self):
 		return '{}'.format(self.name)
 	
-class Category(model.Models):
-	name = model.CharField('Назва', max_length=100)
-	subcategories = models.ForeignKey('Subсategory', verbose_name='Підкатегорії', on_delete=models.PROTECT)
+class Category(models.Model):
+	name = models.CharField('Назва', max_length=100)
+	type = models.ForeignKey('Type', verbose_name='Тип', on_delete=models.PROTECT)
 	
 	class Meta(object):
 		verbose_name = 'Категорія'
@@ -71,12 +80,23 @@ class Category(model.Models):
 		return '{}'.format(self.name)
 	
 	
-class Subcategory(model.Models):
-	name = model.CharField('Назва', max_length=100)
+class Subcategory(models.Model):
+	name = models.CharField('Назва', max_length=100)
+	category = models.ForeignKey('Category', verbose_name='Категорія', on_delete=models.PROTECT)
 	
 	class Meta(object):
 		verbose_name = 'Підкатегорія'
 		verbose_name_plural = 'Підкатегорії'
+		
+	def __str__(self):
+		return '{}'.format(self.name)
+		
+class Place(models.Model):
+	name = models.CharField('Назва', max_length=100)
+	
+	class Meta(object):
+		verbose_name = 'Місце'
+		verbose_name_plural = 'Місця'
 		
 	def __str__(self):
 		return '{}'.format(self.name)
