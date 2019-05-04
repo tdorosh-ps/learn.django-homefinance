@@ -59,24 +59,27 @@ class Type(model.Models):
 	def __str__(self):
 		return '{}'.format(self.name)
 	
+class Category(model.Models):
+	name = model.CharField('Назва', max_length=100)
+	subcategories = models.ForeignKey('Subсategory', verbose_name='Підкатегорії', on_delete=models.PROTECT)
+	
+	class Meta(object):
+		verbose_name = 'Категорія'
+		verbose_name_plural = 'Категорії'
+		
+	def __str__(self):
+		return '{}'.format(self.name)
 	
 	
+class Subcategory(model.Models):
+	name = model.CharField('Назва', max_length=100)
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	class Meta(object):
+		verbose_name = 'Підкатегорія'
+		verbose_name_plural = 'Підкатегорії'
+		
+	def __str__(self):
+		return '{}'.format(self.name)
 	
 	
 	
