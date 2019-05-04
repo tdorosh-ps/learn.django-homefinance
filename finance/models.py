@@ -39,13 +39,14 @@ class Account(models.Model):
 		return '{}, {}'.format(self.title, self.amount)
 		
 	def increase(self, sum):
-			self.amount += sum
+		self.amount += sum
 			
 	def decrease(self, sum):
-		try:
+		if self.amount >= sum:
 			self.amount -= sum
-		except ValidationError:
-			return 'На рахунку недостатньо коштів'
+		else:
+			return 'На рахунку недостатньо коштів. Поповніть спочатку рахунок'
+		
 		
 class Currency(models.Model):
 	name = models.CharField('Назва', max_length=5)
