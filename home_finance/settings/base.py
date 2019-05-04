@@ -29,6 +29,7 @@ SECRET_KEY = os.environ['SECRET_KEY_HFN']
 # Application definition
 
 INSTALLED_APPS = [
+	'finance.apps.FinanceConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
