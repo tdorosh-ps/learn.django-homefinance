@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.core.validators import MinValueValidator
 # Create your models here.
 class Transaction(models.Model):
 	amount = models.DecimalField('Сума', max_digits=11, decimal_places=2, default=0, validators=[MinValueValidator(0)])
@@ -37,12 +38,12 @@ class Account(models.Model):
 	def __str__(self):
 		return '{}, {}'.format(self.title, self.amount)
 		
-	def increase(self):
-			self.amount += 
+	def increase(self, sum):
+			self.amount += sum
 			
-	def decrease(self):
+	def decrease(self, sum):
 		try:
-			self.amount -= 
+			self.amount -= sum
 		except ValidationError:
 			return 'На рахунку недостатньо коштів'
 		
@@ -56,7 +57,7 @@ class Currency(models.Model):
 		verbose_name_plural = 'Валюти'
 		
 	def __str__(self):
-		return '{}, {}'.format(self.name)
+		return '{}'.format(self.name)
 		
 class Type(models.Model):
 	name = models.CharField('Назва', max_length=100)
