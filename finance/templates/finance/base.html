@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html lang='uk'>
+
+  <head>
+  
+    <meta charset='UTF-8'>
+    <title>Домашні фінанси - {% block meta_title %} {% endblock meta_title %}</title>
+	<meta name='description' value="Домашні фінанси">
+	
+	<!--Include styles-->
+	{% block extra_css %}{% endblock extra_css %}
+	
+  </head>
+  
+  <body>
+  
+    <div>
+	
+	  <div><h1>{% block title_page %} {% endblock title_page %}</h1></div>
+	  
+	  
+	  {% block status_message %}
+	  {% if request.GET.status_message %}
+	  
+		<div>{{ request.GET.status_message }}</div>
+		
+	  {% endif %}
+	  {% endblock %}
+  
+      {% block content %} 
+	
+	  {% endblock content %}
+	
+	</div>
+  
+  </body>
+
+</html>
