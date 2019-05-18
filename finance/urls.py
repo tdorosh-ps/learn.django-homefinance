@@ -44,11 +44,16 @@ urlpatterns = [
 	path('accounting/category/<int:pk>/delete/', views.CategoryDeleteView.as_view(), name='category_delete'),
 	
 		#Subcategories urls
-		
 	path('accounting/subcategories/', views.SubcategoriesListView.as_view(), name='subcategories_list'),
 	path('accounting/subcategory/create/', views.SubcategoryCreateView.as_view(), name='subcategory_create'),
 	path('accounting/subcategory/<int:pk>/edit/', views.SubcategoryEditView.as_view(), name='subcategory_edit'),
 	path('accounting/subcategory/<int:pk>/delete/', views.SubcategoryDeleteView.as_view(), name='subcategory_delete'),
+	
+		#Places urls
+	path('accounting/places/', views.PlacesListView.as_view(), name='places_list'),
+	path('accounting/place/create/', views.PlaceCreateView.as_view(), name='place_create'),
+	path('accounting/place/<int:pk>/edit/', views.PlaceEditView.as_view(), name='place_edit'),
+	path('accounting/place/<int:pk>/delete/', views.PlaceDeleteView.as_view(), name='place_delete'),
 	
 	
 ]
