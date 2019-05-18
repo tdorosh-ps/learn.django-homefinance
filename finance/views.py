@@ -1,7 +1,8 @@
 from django.shortcuts import render
-#from .models import Transaction
+from django.views import generic
+from .models import Transaction, Account, Currency, Type, Category, Subcategory, Place
 
 # Create your views here.
-def transactions_list(request):
-	transactions = Transaction.objects.all()
-	return render(request, 'finance/transactions_list.html', {'transactions': transactions})
+class TransactionsListView(generic.ListView):
+	model = Transaction
+	template_name = 'finance/transactions_list.html'
