@@ -6,10 +6,10 @@ app_name = 'finance'
 
 urlpatterns = [
 	
-	path('home/', name='home'),
+	#path('home/', name='home'),
 	
 	#Accounting urls
-	path('accounting/', name='accounting'),
+	#path('accounting/', name='accounting'),
 	
 		#Transactions urls
 	path('accounting/transactions/', views.TransactionsListView.as_view(), name='transactions_list'),
@@ -55,5 +55,9 @@ urlpatterns = [
 	path('accounting/place/<int:pk>/edit/', views.PlaceEditView.as_view(), name='place_edit'),
 	path('accounting/place/<int:pk>/delete/', views.PlaceDeleteView.as_view(), name='place_delete'),
 	
+	#Statistics urls
+	#path('statistics', name='statistics'),
 	
+	#Planning urls
+	#path('planning', name='planning'),
 ]
