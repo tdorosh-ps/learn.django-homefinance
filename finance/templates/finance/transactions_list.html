@@ -1,0 +1,125 @@
+{% extends 'title/base.html' %}
+
+{% block meta_title %} Список трансакцій {% endblock meta_title %}
+{% block title_page %} Список трансакцій {% endblock title_page %}
+
+{% block content %} 
+<div>
+  <div>
+    <a href="{% url 'finance:transaction_add' %}">Додати трансакцію</a>
+  </div>
+  
+  <div>
+    <a href="#">Додати декілька трансакцій</a>
+  </div>
+  
+  <div>
+    <form action="#" method='GET'>
+        <label for='search'>Пошук в примітках</label>
+        <input type='search' id='search' name='search'>
+        <input type='submit' value='Знайти' name='search_button'>
+    </form>
+  </div>
+  
+</div>
+	  
+<div>
+  <form action="#" method='GET'>
+	
+    <div>
+	  <label for='type'>Тип титулу</label>
+		<select id='type' name='type'>
+		      <option value=''>Всі</option>
+			  <option value='OB' {% if request.GET.type == 'OB' %}selected{% endif%}>Будівництво</option>
+			  <option value='PVR' {% if request.GET.type == 'PVR' %}selected{% endif%}>Проектно-вишукувальні роботи</option>
+		    </select>
+		  </div>
+		  
+		</div>
+		
+		<div class='col-5'>
+		    <label for='agreement'>Погодження Міністерства</label>
+			<input type='checkbox' id='agreement' name='agreement' {% if request.GET.agreement == 'on' %}checked{% endif %}>
+		</div>
+		
+	  </div>
+	  
+	  <div class='row'>
+		  
+		<div class='col-2'>
+		  <div>
+		    <label for='month'>Місяць</label>
+			<select id='month' name='month'>
+		      <option value=''>Всі</option>
+			  {% for month in months %}
+		      <option value='{{ month.month }}' {% if month.month == request.GET.month|add:0 %}selected{% endif %}>{{ month|date:'F' }}</option>
+		    {% endfor %}
+		    </select>
+		  </div>
+		  
+		</div>
+		
+		
+		<div class='col-5'>  
+		    <label for='client'>Замовник</label>
+			<select id='client' name='client'>
+		      <option value=''>Всі</option>
+			  {% for client in clients %}
+			  <option value='{{ client }}'  {% if client == request.GET.client %}selected{% endif %}>{{ client }}</option>
+			  {% endfor %}
+		    </select>
+		</div>
+		
+		
+		<div class='col-5'>  
+		    <label for='done'>Виконаний</label>
+			<input type='checkbox' id='done' name='done' {% if request.GET.done == 'on' %}checked{% endif %}>
+		</div>
+	    
+	  </div>
+	  
+	    <input type='submit' value='Застосувати' id='filtration_button' name='filtration_button'>
+		<button><a href='{% url 'title:titles_list' %}'>Скинути фільтри</a></button>
+	  
+	</form>
+  </div>
+</div>
+{% if titles %}
+<div class='row'>
+  <div class='col-xs-12'>
+    <table class='table table-bordered table-hover'>
+	  <thead>
+	    <tr class='table-primary'>
+		  <td>№</td>
+		  <td>Назва титулу</td>
+		  <td>Тип титулу</td>
+		  <td>Замовник</td>
+		  <td>Погодження Міністерства</td>
+		  <td>Виконано</td>
+		  <td>Примітки</td>
+		</tr>
+	  </thead>
+	  
+	  <tbody>
+	  {% for title in titles %}
+	    <tr>
+		  <td>{{ forloop.counter}}</td>
+		   <td><a href='{% url "title:title_detail" title.id %}'>{{ title.title }}</a><a href="{% url 'title:title_edit' title.id %}"> Редагувати</a></td>
+		   <td>{{ title.get_type_display }}</td>
+		   <td>{{ title.client }}</td>
+		   <td>{{ title.ministry_agreement }}</td>
+		   <td>{{ title.is_done }}</td>
+		   <td>{{ title.notes }}</td>
+		</tr>
+	    
+	  {% endfor %}
+	  </tbody>
+	
+	
+	</table>
+  </div>
+</div>
+{% else %}
+  <p>Титулів не знайдено.</p>
+{% endif %}
+{% endblock content %}
