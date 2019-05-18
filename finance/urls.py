@@ -24,4 +24,6 @@ urlpatterns = [
 	path('accounting/accounts/create/', views.AccountCreateView.as_view(), name='account_create'),
 	path('accounting/accounts/<int:pk>/edit/', views.AccountEditView.as_view(), name='account_edit'),
 	path('accounting/accounts/<int:pk>/delete/', views.AccountDeleteView.as_view(), name='account_delete'),
+	
+		#
 ]
