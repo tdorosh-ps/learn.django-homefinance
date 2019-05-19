@@ -5,10 +5,10 @@ from django.core.validators import MinValueValidator
 # Create your models here.
 class Transaction(models.Model):
 	amount = models.DecimalField('Сума', max_digits=11, decimal_places=2, default=0, validators=[MinValueValidator(0)])
-	currencies = models.ForeignKey('Currency', verbose_name='Валюта', on_delete=models.PROTECT)
-	types = models.ForeignKey('Type', verbose_name='Тип', on_delete=models.PROTECT)
-	categories = models.ForeignKey('Category', verbose_name='Категорія', on_delete=models.PROTECT, limit_choices_to={}, blank=True)
-	subcategories = models.ForeignKey('Subcategory', verbose_name='Підкатегорія', on_delete=models.PROTECT, limit_choices_to={}, blank=True, null=True)
+	currency = models.ForeignKey('Currency', verbose_name='Валюта', on_delete=models.PROTECT)
+	type = models.ForeignKey('Type', verbose_name='Тип', on_delete=models.PROTECT)
+	category = models.ForeignKey('Category', verbose_name='Категорія', on_delete=models.PROTECT, limit_choices_to={}, blank=True)
+	subcategory = models.ForeignKey('Subcategory', verbose_name='Підкатегорія', on_delete=models.PROTECT, limit_choices_to={}, blank=True, null=True)
 	from_account = models.ForeignKey('Account', related_name='from_account_set', verbose_name='З рахунку', on_delete=models.PROTECT, blank=True, null=True)
 	on_account = models.ForeignKey('Account', related_name='on_account_set', verbose_name='На рахунок', on_delete=models.PROTECT, blank=True, null=True)
 	create_datetime = models.DateTimeField('Дата здійснення', default=timezone.now)
@@ -24,15 +24,19 @@ class Transaction(models.Model):
 		verbose_name_plural = 'Трансакції'
 		
 	def __str__(self):
-		return '{}, {} {}, {}'.format(self.notes, self.amount, self.currencies, self.create_datetime)
+		return '{}, {} {}, {}'.format(self.notes, self.amount, self.currency, self.create_datetime)
 		
 		
 class Account(models.Model):
 	title = models.CharField('Назва', max_length=255)
 	amount = models.DecimalField('Залишок', max_digits=11, decimal_places=2, default=0, validators=[MinValueValidator(0)])
+	currency = models.ForeignKey('Currency', verbose_name='Валюта рахунку', on_delete=models.PROTECT)
 	notes = models.TextField('Додаткові відомості', blank=True)
 	create_datetime = models.DateTimeField('Дата створення', default=timezone.now)
 	is_default = models.BooleanField('За замовчуванням')
+	
+	def get_absolute_url(self):
+		return reverse('finance:account_detail', kwargs={'pk': self.pk})
 	
 	class Meta(object):
 		ordering = ['amount']
