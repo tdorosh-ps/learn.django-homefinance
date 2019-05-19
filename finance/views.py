@@ -1,7 +1,9 @@
+from decimal import *
+
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
-from .models import Transaction, Account, Currency, Type, Category, Subcategory, Place
+from .models import Transaction, Account, Currency, Type, Category, Subcategory, Place, AccountError
 
 # Create your views here.
 
@@ -18,6 +20,29 @@ class TransactionCreateView(generic.CreateView):
 	model = Transaction
 	fields = '__all__'
 	template_name = 'finance/transaction/transaction_create.html'
+	
+	def post(self, request, *args, **kwargs):
+		amount = Decimal(request.POST.get('amount', ''))
+		currency = Currency.objects.get(pk=request.POST.get('currency', ''))
+		from_account = request.POST.get('from_account', '')
+		on_account = request.POST.get('on_account', '')
+		if from_account:
+			ad = Account.objects.get(pk=from_account)
+			try:
+				ad.decrease(amount, currency)
+			except AccountError as ae:
+				pass
+			else:
+				ad.save()
+		if on_account:
+			ai = Account.objects.get(pk=on_account)
+			try:
+				ai.increase(amount, currency)
+			except AccountError as ae:
+				pass
+			else:
+				ai.save()
+		return super().post(request, *args, **kwargs)
 	
 class TransactionEditView(generic.UpdateView):
 	model = Transaction

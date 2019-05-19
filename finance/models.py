@@ -2,6 +2,14 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.core.validators import MinValueValidator
+
+#Exception Class
+
+class AccountError(Exception):
+	def __init__(self, text):
+		self.txt = text
+
+
 # Create your models here.
 
 class Transaction(models.Model):
@@ -51,13 +59,13 @@ class Account(models.Model):
 		if self.currency == currency:
 			self.amount += sum
 		else:
-			return 'Валюта рахунку має співвпадати з валютою трансакції'
+			raise AccountError('Валюта рахунку має співвпадати з валютою трансакції')
 			
 	def decrease(self, sum, currency):
 		if self.amount < sum:
-			return 'На рахунку недостатньо коштів. Поповніть спочатку рахунок'
+			raise AccountError('На рахунку недостатньо коштів. Поповніть спочатку рахунок')
 		elif self.currency != currency:
-			return 'Валюта рахунку має співвпадати з валютою трансакції'
+			raise AccountError('Валюта рахунку має співвпадати з валютою трансакції')
 		else:
 			self.amount -= sum
 		
