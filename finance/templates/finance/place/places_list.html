@@ -1,0 +1,30 @@
+{% extends 'finance/base.html' %}
+
+{% block meta_title %} Список місць {% endblock meta_title %}
+{% block title_page %} Список місць {% endblock title_page %}
+
+{% block content %} 
+{% if object_list %}
+<table>
+  <thead>
+	<tr>
+	  <td>&#35;</td>
+	  <td>Назва</td>
+	</tr>
+  </thead>
+	  
+  <tbody>
+  {% for place in object_list %}
+	<tr>
+	  <td>{{ forloop.counter}}</td>
+	  <td>{{ place.name }}</td>
+	</tr>
+  {% endfor %}
+  </tbody>
+	
+</table>
+{% else %}
+  <p>Місць не знайдено.</p>
+{% endif %}
+
+{% endblock content %}
