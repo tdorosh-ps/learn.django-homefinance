@@ -32,7 +32,23 @@ urlpatterns = [
 	path('accounting/currencies/<int:pk>/edit/', views.CurrencyEditView.as_view(), name='currency_edit'),
 	path('accounting/currencies/<int:pk>/delete/', views.CurrencyDeleteView.as_view(), name='currency_delete'),
 	
-		
+		#Types urls
+	path('accounting/types/', views.TypesListView.as_view(), name='types_list'),
+	path('accounting/types/create/', views.TypeCreateView.as_view(), name='type_create'),
+	path('accounting/types/<int:pk>/edit/', views.TypeEditView.as_view(), name='type_edit'),
+	path('accounting/types/<int:pk>/delete/', views.TypeDeleteView.as_view(), name='type_delete'),
+	
+		#Category urls
+	path('accounting/categories/', views.CategoriesListView.as_view(), name='categories_list'),
+	path('accounting/categories/create/', views.CategoryCreateView.as_view(), name='category_create'),
+	path('accounting/categories/<int:pk>/edit/', views.CategoryEditView.as_view(), name='category_edit'),
+	path('accounting/categories/<int:pk>/delete/', views.CategoryDeleteView.as_view(), name='category_delete'),
+	
+		#Subcategories urls
+	path('accounting/subcategories/', views.SubcategoriesListView.as_view(), name='subcategories_list'),
+	path('accounting/subcategories/create/', views.SubcategoryCreateView.as_view(), name='subcategory_create'),
+	path('accounting/subcategories/<int:pk>/edit/', views.SubcategoryEditView.as_view(), name='subcategory_edit'),
+	path('accounting/subcategories/<int:pk>/delete/', views.SubcategoryDeleteView.as_view(), name='subcategory_delete'),
 	
 		#Places urls
 	path('accounting/places/', views.PlacesListView.as_view(), name='places_list'),

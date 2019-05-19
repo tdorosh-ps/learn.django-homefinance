@@ -54,7 +54,6 @@ class AccountDeleteView(generic.DeleteView):
 	template_name = 'finance/account/account_confirm_delete.html'
 	success_url = reverse_lazy('finance:accounts_list')
 	
-	
 #Currencies views
 
 class CurrenciesListView(generic.ListView):
@@ -78,6 +77,75 @@ class CurrencyDeleteView(generic.DeleteView):
 	template_name = 'finance/currency/currency_confirm_delete.html'
 	success_url = reverse_lazy('finance:currencies_list')
 	
+#Types views
+
+class TypesListView(generic.ListView):
+	model = Type
+	template_name = 'finance/type/types_list.html'
+	
+class TypeCreateView(generic.CreateView):
+	model = Type
+	fields = '__all__'
+	template_name = 'finance/type/type_create.html'
+	success_url = reverse_lazy('finance:types_list')
+	
+class TypeEditView(generic.UpdateView):
+	model = Type
+	fields = '__all__'
+	template_name = 'finance/type/type_edit.html'
+	success_url = reverse_lazy('finance:currencies_list')
+	
+class TypeDeleteView(generic.DeleteView):
+	model = Type
+	template_name = 'finance/type/type_confirm_delete.html'
+	success_url = reverse_lazy('finance:types_list')	
+	
+#Categories views
+
+class CategoriesListView(generic.ListView):
+	model = Category
+	template_name = 'finance/category/categories_list.html'
+	
+class CategoryCreateView(generic.CreateView):
+	model = Category
+	fields = '__all__'
+	template_name = 'finance/category/category_create.html'
+	success_url = reverse_lazy('finance:categories_list')
+	
+class CategoryEditView(generic.UpdateView):
+	model = Category
+	fields = '__all__'
+	template_name = 'finance/category/category_edit.html'
+	success_url = reverse_lazy('finance:categories_list')
+	
+class CategoryDeleteView(generic.DeleteView):
+	model = Category
+	template_name = 'finance/category/category_confirm_delete.html'
+	success_url = reverse_lazy('finance:categories_list')
+	
+#Subcategories views
+
+class SubcategoriesListView(generic.ListView):
+	model = Subcategory
+	template_name = 'finance/subcategory/subcategories_list.html'
+	
+class SubcategoryCreateView(generic.CreateView):
+	model = Subcategory
+	fields = '__all__'
+	template_name = 'finance/subcategory/subcategory_create.html'
+	success_url = reverse_lazy('finance:subcategories_list')
+	
+class SubcategoryEditView(generic.UpdateView):
+	model = Subcategory
+	fields = '__all__'
+	template_name = 'finance/subcategory/subcategory_edit.html'
+	success_url = reverse_lazy('finance:subcategories_list')
+	
+class SubcategoryDeleteView(generic.DeleteView):
+	model = Subcategory
+	template_name = 'finance/subcategory/subcategory_confirm_delete.html'
+	success_url = reverse_lazy('finance:subcategories_list')
+	
 #Places views
 
 class PlacesListView(generic.ListView):
@@ -100,32 +168,4 @@ class PlaceDeleteView(generic.DeleteView):
 	model = Place
 	template_name = 'finance/place/place_confirm_delete.html'
 	success_url = reverse_lazy('finance:places_list')
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 	
