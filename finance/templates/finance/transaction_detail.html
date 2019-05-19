@@ -1,0 +1,42 @@
+{% extends 'finance/base.html' %}
+
+{% block meta_title %} Трансакція № {{ object.id }} {% endblock meta_title %}
+{% block title_page %} Трансакція № {{ object.id }} {% endblock title_page %}
+
+{% block content %} 
+<table>
+  <thead>
+	<tr>
+	  <td>id Трансакції</td>
+	  <td>Сума</td>
+	  <td>Валюта</td>
+	  <td>Тип</td>
+	  <td>Категорія</td>
+	  <td>Підкатегорія</td>
+	  <td>З рахунку</td>
+	  <td>На рахунок</td>
+	  <td>Дата створення</td>
+	  <td>Місце здійснення</td>
+	  <td>Примітки</td>
+	</tr>
+  </thead>
+	  
+  <tbody>
+	<tr>
+	  <td>{{ object.id }}</td>
+	  <td>{{ object.amount }}</td>
+	  <td>{{ object.currencies }}</td>
+	  <td>{{ object.types }}</td>
+	  <td>{{ object.categories }}</td>
+	  <td>{{ object.subcategories }}</td>
+	  <td>{{ object.from_account }}</td>
+	  <td>{{ object.on_account}}</td>
+	  <td>{{ object.create_datetime }}</td>
+	  <td>{{ object.place }}</td>
+	  <td>{{ object.notes }}</td>
+	</tr>
+  </tbody>
+	
+</table>
+
+{% endblock content %}

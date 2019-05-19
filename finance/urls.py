@@ -13,6 +13,7 @@ urlpatterns = [
 	
 		#Transactions urls
 	path('accounting/transactions/', views.TransactionsListView.as_view(), name='transactions_list'),
+	
 	path('accounting/transactions/<int:pk>/', views.TransactionDetailView.as_view(), name='transaction_detail'),
 	path('accounting/transactions/create/', views.TransactionCreateView.as_view(), name='transaction_create'),
 	path('accounting/transactions/<int:pk>/edit/', views.TransactionEditView.as_view(), name='transaction_edit'),
