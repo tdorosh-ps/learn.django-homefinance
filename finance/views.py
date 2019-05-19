@@ -28,20 +28,12 @@ class TransactionCreateView(generic.CreateView):
 		on_account = request.POST.get('on_account', '')
 		if from_account:
 			ad = Account.objects.get(pk=from_account)
-			try:
-				ad.decrease(amount, currency)
-			except AccountError as ae:
-				pass
-			else:
-				ad.save()
+			ad.decrease(amount, currency)
+			ad.save()
 		if on_account:
 			ai = Account.objects.get(pk=on_account)
-			try:
-				ai.increase(amount, currency)
-			except AccountError as ae:
-				pass
-			else:
-				ai.save()
+			ai.increase(amount, currency)
+			ai.save()
 		return super().post(request, *args, **kwargs)
 	
 class TransactionEditView(generic.UpdateView):
@@ -53,6 +45,19 @@ class TransactionDeleteView(generic.DeleteView):
 	model = Transaction
 	template_name = 'finance/transaction/transaction_confirm_delete.html'
 	success_url = reverse_lazy('finance:transactions_list')
+	
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		transaction = Transaction.objects.get(pk=self.object.pk)
+		if transaction.from_account:
+			ai = Account.objects.get(pk=transaction.from_account.id)
+			ai.increase(transaction.amount, transaction.currency)
+			ai.save()
+		if transaction.on_account:
+			ad = Account.objects.get(pk=transaction.on_account.id)
+			ad.decrease(transaction.amount, transaction.currency)
+			ad.save()
+		return super().post(request, *args, **kwargs)
 	
 #Accounts views	
 	
