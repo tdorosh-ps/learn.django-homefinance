@@ -1,0 +1,32 @@
+{% extends 'finance/base.html' %}
+
+{% block meta_title %} Список категорій трансакцій {% endblock meta_title %}
+{% block title_page %} Список категорій трансакцій {% endblock title_page %}
+
+{% block content %} 
+{% if object_list %}
+<table>
+  <thead>
+	<tr>
+	  <td>&#35;</td>
+	  <td>Назва</td>
+	  <td>Тип</td>
+	</tr>
+  </thead>
+	  
+  <tbody>
+  {% for category in object_list %}
+	<tr>
+	  <td>{{ forloop.counter}}</td>
+	  <td>{{ category.name }}</td>
+	  <td>{{ category.type }}</td>
+	</tr>
+  {% endfor %}
+  </tbody>
+	
+</table>
+{% else %}
+  <p>Категорій трансакцій не знайдено.</p>
+{% endif %}
+
+{% endblock content %}

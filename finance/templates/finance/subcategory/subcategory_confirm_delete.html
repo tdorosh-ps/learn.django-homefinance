@@ -1,0 +1,14 @@
+{% extends 'finance/base.html' %}
+
+{% block meta_title %} Видалити підкатегорію трансакції {% endblock meta_title %}
+{% block title_page %} Видалити підкатегорію трансакції {{ object }} {% endblock title_page %}
+
+{% block content %} 
+<form action="" method="POST">
+{% csrf_token %}
+  <p>Ви дійсно бажаєте видалити підкатегорію трансакції {{ object }}?</p>
+  <input type="submit" name="submit" value="Видалити">
+
+</form>
+
+{% endblock content %}

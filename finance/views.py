@@ -93,7 +93,7 @@ class TypeEditView(generic.UpdateView):
 	model = Type
 	fields = '__all__'
 	template_name = 'finance/type/type_edit.html'
-	success_url = reverse_lazy('finance:currencies_list')
+	success_url = reverse_lazy('finance:types_list')
 	
 class TypeDeleteView(generic.DeleteView):
 	model = Type

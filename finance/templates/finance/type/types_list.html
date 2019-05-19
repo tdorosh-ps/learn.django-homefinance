@@ -1,0 +1,30 @@
+{% extends 'finance/base.html' %}
+
+{% block meta_title %} Список типів трансакції {% endblock meta_title %}
+{% block title_page %} Список тип трансакції {% endblock title_page %}
+
+{% block content %} 
+{% if object_list %}
+<table>
+  <thead>
+	<tr>
+	  <td>&#35;</td>
+	  <td>Назва</td>
+	</tr>
+  </thead>
+	  
+  <tbody>
+  {% for type in object_list %}
+	<tr>
+	  <td>{{ forloop.counter}}</td>
+	  <td>{{ type.name }}</td>
+	</tr>
+  {% endfor %}
+  </tbody>
+	
+</table>
+{% else %}
+  <p>Типів трансакції не знайдено.</p>
+{% endif %}
+
+{% endblock content %}
