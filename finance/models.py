@@ -47,14 +47,19 @@ class Account(models.Model):
 	def __str__(self):
 		return '{}, {}'.format(self.title, self.amount)
 		
-	def increase(self, sum):
-		self.amount += sum
-			
-	def decrease(self, sum):
-		if self.amount >= sum:
-			self.amount -= sum
+	def increase(self, sum, currency):
+		if self.currency == currency:
+			self.amount += sum
 		else:
+			return 'Валюта рахунку має співвпадати з валютою трансакції'
+			
+	def decrease(self, sum, currency):
+		if self.amount < sum:
 			return 'На рахунку недостатньо коштів. Поповніть спочатку рахунок'
+		elif self.currency != currency:
+			return 'Валюта рахунку має співвпадати з валютою трансакції'
+		else:
+			self.amount -= sum
 		
 		
 class Currency(models.Model):
