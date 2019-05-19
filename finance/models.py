@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.core.validators import MinValueValidator
 # Create your models here.
+
 class Transaction(models.Model):
 	amount = models.DecimalField('Сума', max_digits=11, decimal_places=2, default=0, validators=[MinValueValidator(0)])
 	currency = models.ForeignKey('Currency', verbose_name='Валюта', on_delete=models.PROTECT)

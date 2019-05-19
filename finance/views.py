@@ -4,6 +4,7 @@ from django.views import generic
 from .models import Transaction, Account, Currency, Type, Category, Subcategory, Place
 
 # Create your views here.
+
 #Transactions views
 class TransactionsListView(generic.ListView):
 	model = Transaction
@@ -52,4 +53,57 @@ class AccountDeleteView(generic.DeleteView):
 	model = Account
 	template_name = 'finance/account/account_confirm_delete.html'
 	success_url = reverse_lazy('finance:accounts_list')
+	
+	
+#Currencies views
+
+class CurrenciesListView(generic.ListView):
+	model = Currency
+	template_name = 'finance/currency/currencies_list.html'
+	
+class CurrencyCreateView(generic.CreateView):
+	model = Currency
+	fields = '__all__'
+	template_name = 'finance/currency/currency_create.html'
+	success_url = reverse_lazy('finance:currencies_list')
+	
+class CurrencyEditView(generic.UpdateView):
+	model = Currency
+	fields = '__all__'
+	template_name = 'finance/currency/currency_edit.html'
+	success_url = reverse_lazy('finance:currencies_list')
+	
+class CurrencyDeleteView(generic.DeleteView):
+	model = Currency
+	template_name = 'finance/currency/currency_confirm_delete.html'
+	success_url = reverse_lazy('finance:currencies_list')
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 	
