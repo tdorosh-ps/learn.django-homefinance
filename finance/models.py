@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.core.validators import MinValueValidator
 # Create your models here.
@@ -13,6 +14,9 @@ class Transaction(models.Model):
 	create_datetime = models.DateTimeField('Дата здійснення', default=timezone.now)
 	place = models.ForeignKey('Place', verbose_name='Місце', on_delete=models.PROTECT, blank=True, default='')
 	notes = models.TextField('Додаткові відомості', blank=True)
+	
+	def get_absolute_url(self):
+		return reverse('finance:transaction_detail', kwargs={'pk': self.pk})
 	
 	class Meta(object):
 		ordering = ['-create_datetime']
