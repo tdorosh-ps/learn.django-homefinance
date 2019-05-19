@@ -41,6 +41,35 @@ class TransactionEditView(generic.UpdateView):
 	fields = '__all__'
 	template_name = 'finance/transaction/transaction_edit.html'
 	
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		transaction = Transaction.objects.get(pk=self.object.pk)
+		amount = Decimal(request.POST.get('amount', ''))
+		currency = Currency.objects.get(pk=request.POST.get('currency', ''))
+		from_account = request.POST.get('from_account', '')
+		on_account = request.POST.get('on_account', '')
+		
+		if transaction.from_account:
+			aidb = Account.objects.get(pk=transaction.from_account.id)
+			aidb.increase(transaction.amount, transaction.currency)
+			aidb.save()
+		if transaction.on_account:
+			addb = Account.objects.get(pk=transaction.on_account.id)
+			addb.decrease(transaction.amount, transaction.currency)
+			addb.save()
+		
+		if from_account:
+			adpost = Account.objects.get(pk=from_account)
+			adpost.decrease(amount, currency)
+			adpost.save()
+		if on_account:
+			aipost = Account.objects.get(pk=on_account)
+			aipost.increase(amount, currency)
+			aipost.save()
+			
+		return super().post(request, *args, **kwargs)
+		
+	
 class TransactionDeleteView(generic.DeleteView):
 	model = Transaction
 	template_name = 'finance/transaction/transaction_confirm_delete.html'
