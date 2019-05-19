@@ -78,6 +78,28 @@ class CurrencyDeleteView(generic.DeleteView):
 	template_name = 'finance/currency/currency_confirm_delete.html'
 	success_url = reverse_lazy('finance:currencies_list')
 	
+#Places views
+
+class PlacesListView(generic.ListView):
+	model = Place
+	template_name = 'finance/place/places_list.html'
+	
+class PlaceCreateView(generic.CreateView):
+	model = Place
+	fields = '__all__'
+	template_name = 'finance/place/place_create.html'
+	success_url = reverse_lazy('finance:places_list')
+	
+class PlaceEditView(generic.UpdateView):
+	model = Place
+	fields = '__all__'
+	template_name = 'finance/place/place_edit.html'
+	success_url = reverse_lazy('finance:places_list')
+	
+class PlaceDeleteView(generic.DeleteView):
+	model = Place
+	template_name = 'finance/place/place_confirm_delete.html'
+	success_url = reverse_lazy('finance:places_list')
 
 	
 	

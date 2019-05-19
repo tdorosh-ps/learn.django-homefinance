@@ -13,7 +13,7 @@ class Transaction(models.Model):
 	from_account = models.ForeignKey('Account', related_name='from_account_set', verbose_name='З рахунку', on_delete=models.PROTECT, blank=True, null=True)
 	on_account = models.ForeignKey('Account', related_name='on_account_set', verbose_name='На рахунок', on_delete=models.PROTECT, blank=True, null=True)
 	create_datetime = models.DateTimeField('Дата здійснення', default=timezone.now)
-	place = models.ForeignKey('Place', verbose_name='Місце', on_delete=models.PROTECT, blank=True, default='')
+	place = models.ForeignKey('Place', verbose_name='Місце', on_delete=models.PROTECT, blank=True)
 	notes = models.TextField('Додаткові відомості', blank=True)
 	
 	def get_absolute_url(self):
