@@ -6,22 +6,23 @@ from .models import Transaction, Account, Currency, Type, Category, Subcategory,
 # Create your views here.
 class TransactionsListView(generic.ListView):
 	model = Transaction
-	template_name = 'finance/transactions_list.html'
+	template_name = 'finance/transaction/transactions_list.html'
 	
 class TransactionDetailView(generic.DetailView):
 	model = Transaction
-	template_name = 'finance/transaction_detail.html'
+	template_name = 'finance/transaction/transaction_detail.html'
 	
 class TransactionCreateView(generic.CreateView):
 	model = Transaction
 	fields = '__all__'
-	template_name = 'finance/transaction_create.html'
+	template_name = 'finance/transaction/transaction_create.html'
 	
 class TransactionEditView(generic.UpdateView):
 	model = Transaction
 	fields = '__all__'
-	template_name = 'finance/transaction_edit.html'
+	template_name = 'finance/transaction/transaction_edit.html'
 	
 class TransactionDeleteView(generic.DeleteView):
 	model = Transaction
+	template_name = 'finance/transaction/transaction_confirm_delete.html'
 	success_url = reverse_lazy('finance:transactions_list')
