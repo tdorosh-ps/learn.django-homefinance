@@ -52,9 +52,10 @@ class TransactionEditView(generic.UpdateView):
 			post_from_account = Account.objects.get(pk=post_from_account_id)
 			transaction_from_account = Account.objects.get(pk=transaction.from_account.id)
 			
-			if transaction.from_account.id == post_from_account_id:
+			if transaction.from_account.id == int(post_from_account_id):
 				amount_diff_d = post_amount - transaction.amount
 				transaction_from_account.decrease(amount_diff_d, post_currency)
+				post_from_account.decrease(amount_diff_d, post_currency)
 				
 			else:
 				transaction_from_account.increase(transaction.amount, transaction.currency)
@@ -75,9 +76,10 @@ class TransactionEditView(generic.UpdateView):
 			transaction_on_account = Account.objects.get(pk=transaction.on_account.id)
 			post_on_account = Account.objects.get(pk=post_on_account_id)
 			
-			if transaction.on_account.id == post_on_account_id:
+			if transaction.on_account.id == int(post_on_account_id):
 				amount_diff_i = post_amount - transaction.amount
 				transaction_on_account.increase(amount_diff_i, post_currency)
+				post_on_account.increase(amount_diff_i, post_currency)
 		
 			else:
 				transaction_on_account.decrease(transaction.amount, transaction.currency)
