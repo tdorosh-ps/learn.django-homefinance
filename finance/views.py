@@ -44,28 +44,64 @@ class TransactionEditView(generic.UpdateView):
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object()
 		transaction = Transaction.objects.get(pk=self.object.pk)
-		amount = Decimal(request.POST.get('amount', ''))
-		currency = Currency.objects.get(pk=request.POST.get('currency', ''))
-		from_account = request.POST.get('from_account', '')
-		on_account = request.POST.get('on_account', '')
+		post_amount = Decimal(request.POST.get('amount'))
+		post_currency = Currency.objects.get(pk=request.POST.get('currency'))
 		
+		if transaction.from_account and request.POST.get('from_account'):
+			post_from_account_id = request.POST.get('from_account')
+			post_from_account = Account.objects.get(pk=post_from_account_id)
+			transaction_from_account = Account.objects.get(pk=transaction.from_account.id)
+			
+			if transaction.from_account.id == post_from_account_id:
+				amount_diff_d = post_amount - transaction.amount
+				transaction_from_account.decrease(amount_diff_d, post_currency)
+				
+			else:
+				transaction_from_account.increase(transaction.amount, transaction.currency)
+				post_from_account.decrease(post_amount, post_currency)
+				
+		elif transaction.from_account:
+			transaction_from_account = Account.objects.get(pk=transaction.from_account.id)
+			transaction_from_account.increase(transaction.amount, transaction.currency)
+			
+		elif request.POST.get('from_account'):
+			post_from_account = Account.objects.get(pk=request.POST.get('from_account'))
+			post_from_account.decrease(post_amount, post_currency)
+			
+			
+		if transaction.on_account and request.POST.get('on_account'):
+			post_on_account_id = request.POST.get('on_account')
+			transaction_on_account = Account.objects.get(pk=transaction.on_account.id)
+			post_on_account = Account.objects.get(pk=post_on_account_id)
+			
+			if transaction.on_account.id == post_on_account_id:
+				amount_diff_i = post_amount - transaction.amount
+				transaction_on_account.increase(amount_diff_i, post_currency)
+		
+			else:
+				transaction_on_account.decrease(transaction.amount, transaction.currency)
+				post_on_account.increase(post_amount, post_currency)
+				
+		elif transaction.on_account:
+			transaction_on_account = Account.objects.get(pk=transaction.on_account.id)
+			transaction_on_account.decrease(transaction.amount, transaction.currency)
+			
+		elif request.POST.get('on_account'):
+			post_on_account = Account.objects.get(pk=request.POST.get('on_account'))
+			post_on_account.increase(post_amount, post_currency)
+				
+				
 		if transaction.from_account:
-			aidb = Account.objects.get(pk=transaction.from_account.id)
-			aidb.increase(transaction.amount, transaction.currency)
-			aidb.save()
+			transaction_from_account.save()
+			
 		if transaction.on_account:
-			addb = Account.objects.get(pk=transaction.on_account.id)
-			addb.decrease(transaction.amount, transaction.currency)
-			addb.save()
-		
-		if from_account:
-			adpost = Account.objects.get(pk=from_account)
-			adpost.decrease(amount, currency)
-			adpost.save()
-		if on_account:
-			aipost = Account.objects.get(pk=on_account)
-			aipost.increase(amount, currency)
-			aipost.save()
+			transaction_on_account.save()
+			
+		if request.POST.get('from_account'):
+			post_from_account.save()
+			
+		if request.POST.get('on_account'):
+			post_on_account.save()
 			
 		return super().post(request, *args, **kwargs)
 		
