@@ -60,13 +60,14 @@ class TransactionEditView(generic.UpdateView):
 				transaction_from_account.increase(transaction.amount, transaction.currency)
 				post_from_account.decrease(post_amount, post_currency)
 				
-		elif transaction.from_account:
-			transaction_from_account = Account.objects.get(pk=transaction.from_account.id)
-			transaction_from_account.increase(transaction.amount, transaction.currency)
+		else:
+			if transaction.from_account:
+				transaction_from_account = Account.objects.get(pk=transaction.from_account.id)
+				transaction_from_account.increase(transaction.amount, transaction.currency)
 			
-		elif request.POST.get('from_account'):
-			post_from_account = Account.objects.get(pk=request.POST.get('from_account'))
-			post_from_account.decrease(post_amount, post_currency)
+			if request.POST.get('from_account'):
+				post_from_account = Account.objects.get(pk=request.POST.get('from_account'))
+				post_from_account.decrease(post_amount, post_currency)
 			
 			
 		if transaction.on_account and request.POST.get('on_account'):
@@ -82,13 +83,14 @@ class TransactionEditView(generic.UpdateView):
 				transaction_on_account.decrease(transaction.amount, transaction.currency)
 				post_on_account.increase(post_amount, post_currency)
 				
-		elif transaction.on_account:
-			transaction_on_account = Account.objects.get(pk=transaction.on_account.id)
-			transaction_on_account.decrease(transaction.amount, transaction.currency)
+		else:
+			if transaction.on_account:
+				transaction_on_account = Account.objects.get(pk=transaction.on_account.id)
+				transaction_on_account.decrease(transaction.amount, transaction.currency)
 			
-		elif request.POST.get('on_account'):
-			post_on_account = Account.objects.get(pk=request.POST.get('on_account'))
-			post_on_account.increase(post_amount, post_currency)
+			if request.POST.get('on_account'):
+				post_on_account = Account.objects.get(pk=request.POST.get('on_account'))
+				post_on_account.increase(post_amount, post_currency)
 				
 				
 		if transaction.from_account:
