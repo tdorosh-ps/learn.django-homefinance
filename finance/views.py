@@ -3,6 +3,7 @@ from django import forms
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
+from django.views.generic import dates
 from .models import Transaction, Account, Currency, Type, Category, Subcategory, Place, AccountError
 
 # Create your views here.
@@ -11,6 +12,24 @@ from .models import Transaction, Account, Currency, Type, Category, Subcategory,
 class TransactionsListView(generic.ListView):
 	model = Transaction
 	template_name = 'finance/transaction/transactions_list.html'
+	
+class TransactionArchiveView(dates.ArchiveIndexView):
+	model = Transaction
+	date_field = 'create_datetime'
+	template_name = 'finance/transaction/transaction_archive.html'
+	
+class TransactionYearArchiveView(dates.YearArchiveView):
+	model = Transaction
+	date_field = 'create_datetime'
+	make_object_list = True
+	template_name = 'finance/transaction/transaction_archive_year.html'
+	allow_future = True
+	
+class TransactionMonthArchiveView(dates.MonthArchiveView):
+	model = Transaction
+	date_field = 'create_datetime'
+	template_name = 'finance/transaction/transaction_archive_month.html'
+	allow_future = True
 	
 class TransactionDetailView(generic.DetailView):
 	model = Transaction

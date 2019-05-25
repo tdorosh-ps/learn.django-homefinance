@@ -13,7 +13,9 @@ urlpatterns = [
 	
 		#Transactions urls
 	path('accounting/transactions/', views.TransactionsListView.as_view(), name='transactions_list'),
-	
+	path('accounting/transactions/all/', views.TransactionArchiveView.as_view(), name='archive'),
+	path('accounting/transactions/<int:year>/', views.TransactionYearArchiveView.as_view(), name='archive_year'),
+	path('accounting/transactions/<int:year>/<str:month>/', views.TransactionMonthArchiveView.as_view(), name='archive_month'),
 	path('accounting/transactions/<int:pk>/', views.TransactionDetailView.as_view(), name='transaction_detail'),
 	path('accounting/transactions/create/', views.TransactionCreateView.as_view(), name='transaction_create'),
 	path('accounting/transactions/<int:pk>/edit/', views.TransactionEditView.as_view(), name='transaction_edit'),

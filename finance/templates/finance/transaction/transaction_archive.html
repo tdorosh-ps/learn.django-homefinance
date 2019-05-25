@@ -1,0 +1,48 @@
+{% extends 'finance/base.html' %}
+
+{% block meta_title %} Список трансакцій {% endblock meta_title %}
+{% block title_page %} Список трансакцій {% endblock title_page %}
+
+{% block content %} 
+{% if latest %}
+<table>
+  <thead>
+	<tr>
+	  <td>&#35;</td>
+	  <td>Сума</td>
+	  <td>Валюта</td>
+	  <td>Тип</td>
+	  <td>Категорія</td>
+	  <td>Підкатегорія</td>
+	  <td>З рахунку</td>
+	  <td>На рахунок</td>
+	  <td>Дата створення</td>
+	  <td>Місце здійснення</td>
+	  <td>Примітки</td>
+	</tr>
+  </thead>
+	  
+  <tbody>
+  {% for transaction in latest %}
+	<tr>
+	  <td>{{ forloop.counter}}</td>
+	  <td>{{ transaction.amount }}</td>
+	  <td>{{ transaction.currency }}</td>
+	  <td>{{ transaction.trans_type }}</td>
+	  <td>{{ transaction.category }}</td>
+	  <td>{{ transaction.subcategory }}</td>
+	  <td>{{ transaction.from_account }}</td>
+	  <td>{{ transaction.on_account}}</td>
+	  <td>{{ transaction.create_datetime }}</td>
+	  <td>{{ transaction.place }}</td>
+	  <td>{{ transaction.notes }}</td>
+	</tr>
+  {% endfor %}
+  </tbody>
+	
+</table>
+{% else %}
+  <p>Трансакцій не знайдено.</p>
+{% endif %}
+
+{% endblock content %}
