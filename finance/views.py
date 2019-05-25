@@ -1,5 +1,5 @@
 from decimal import *
-
+from django import forms
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
@@ -20,6 +20,11 @@ class TransactionCreateView(generic.CreateView):
 	model = Transaction
 	fields = '__all__'
 	template_name = 'finance/transaction/transaction_create.html'
+	
+	def form_valid(self, form):
+		if not form.cleaned_data.get('from_account') and not form.cleaned_data.get('on_account'):
+			raise forms.ValidationError('Вкажіть хоча б один рахунок для проведення трансакції')
+		return super().form_valid(form)
 	
 	def post(self, request, *args, **kwargs):
 		amount = Decimal(request.POST.get('amount', ''))
