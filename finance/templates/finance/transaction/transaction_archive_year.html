@@ -45,4 +45,11 @@
   <p>Трансакцій не знайдено.</p>
 {% endif %}
 
+{% for month in date_list %}
+<ul>
+  <li><a href="{% url 'finance:archive_month' month.year month|date:'m' %}">{{ month|date:'N' }}</a></li>
+</ul>
+
+{% endfor %}
+
 {% endblock content %}

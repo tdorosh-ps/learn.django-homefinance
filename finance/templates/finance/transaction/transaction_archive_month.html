@@ -45,4 +45,9 @@
   <p>Трансакцій не знайдено.</p>
 {% endif %}
 
+{% for day in date_list %}
+<ul>
+  <li><a href="{% url 'finance:archive_day' day.year day|date:'m' day|date:'d' %}">{{ day|date:'j E Y' }}</a></li>
+</ul>
+{% endfor %}
 {% endblock content %}

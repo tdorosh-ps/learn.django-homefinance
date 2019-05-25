@@ -45,4 +45,11 @@
   <p>Трансакцій не знайдено.</p>
 {% endif %}
 
+{% for year in date_list %}
+<ul>
+  <li><a href="{% url 'finance:archive_year' year.year %}">{{ year|date:'Y' }}</a></li>
+</ul>
+
+{% endfor %}
+
 {% endblock content %}

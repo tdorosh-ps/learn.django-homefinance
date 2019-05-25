@@ -52,7 +52,7 @@ class Account(models.Model):
 		verbose_name_plural = 'Рахунки'
 		
 	def __str__(self):
-		return '{}, {}'.format(self.title, self.amount)
+		return '{}, {} {}'.format(self.title, self.amount, self.currency)
 		
 	def increase(self, sum, currency):
 		if self.currency == currency:

@@ -1,7 +1,7 @@
 {% extends 'finance/base.html' %}
 
-{% block meta_title %} Список трансакцій {% endblock meta_title %}
-{% block title_page %} Список трансакцій {% endblock title_page %}
+{% block meta_title %} Список трансакцій за день {% endblock meta_title %}
+{% block title_page %} Список трансакцій за {{ day|date:'j E Y' }} року {% endblock title_page %}
 
 {% block content %} 
 {% if object_list %}
@@ -44,5 +44,6 @@
 {% else %}
   <p>Трансакцій не знайдено.</p>
 {% endif %}
+
 
 {% endblock content %}

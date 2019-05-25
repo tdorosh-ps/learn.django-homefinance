@@ -12,14 +12,14 @@ urlpatterns = [
 	#path('accounting/', name='accounting'),
 	
 		#Transactions urls
-	path('accounting/transactions/', views.TransactionsListView.as_view(), name='transactions_list'),
-	path('accounting/transactions/all/', views.TransactionArchiveView.as_view(), name='archive'),
+	path('accounting/transactions/', views.TransactionArchiveView.as_view(), name='transactions_list'),
 	path('accounting/transactions/<int:year>/', views.TransactionYearArchiveView.as_view(), name='archive_year'),
-	path('accounting/transactions/<int:year>/<str:month>/', views.TransactionMonthArchiveView.as_view(), name='archive_month'),
-	path('accounting/transactions/<int:pk>/', views.TransactionDetailView.as_view(), name='transaction_detail'),
+	path('accounting/transactions/<int:year>/<int:month>/', views.TransactionMonthArchiveView.as_view(), name='archive_month'),
+	path('accounting/transactions/<int:year>/<int:month>/<int:day>/', views.TransactionDayArchiveView.as_view(), name='archive_day'),
 	path('accounting/transactions/create/', views.TransactionCreateView.as_view(), name='transaction_create'),
-	path('accounting/transactions/<int:pk>/edit/', views.TransactionEditView.as_view(), name='transaction_edit'),
-	path('accounting/transactions/<int:pk>/delete/', views.TransactionDeleteView.as_view(), name='transaction_delete'),
+	path('accounting/transactions/id/<int:pk>/', views.TransactionDetailView.as_view(), name='transaction_detail'),
+	path('accounting/transactions/id/<int:pk>/edit/', views.TransactionEditView.as_view(), name='transaction_edit'),
+	path('accounting/transactions/id/<int:pk>/delete/', views.TransactionDeleteView.as_view(), name='transaction_delete'),
 	
 		#Account urls
 	path('accounting/accounts/', views.AccountsListView.as_view(), name='accounts_list'),

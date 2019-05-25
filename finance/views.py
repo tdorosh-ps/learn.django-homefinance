@@ -9,9 +9,6 @@ from .models import Transaction, Account, Currency, Type, Category, Subcategory,
 # Create your views here.
 
 #Transactions views
-class TransactionsListView(generic.ListView):
-	model = Transaction
-	template_name = 'finance/transaction/transactions_list.html'
 	
 class TransactionArchiveView(dates.ArchiveIndexView):
 	model = Transaction
@@ -23,12 +20,19 @@ class TransactionYearArchiveView(dates.YearArchiveView):
 	date_field = 'create_datetime'
 	make_object_list = True
 	template_name = 'finance/transaction/transaction_archive_year.html'
-	allow_future = True
 	
 class TransactionMonthArchiveView(dates.MonthArchiveView):
 	model = Transaction
 	date_field = 'create_datetime'
+	month_format = '%m'
 	template_name = 'finance/transaction/transaction_archive_month.html'
+	allow_future = True
+	
+class TransactionDayArchiveView(dates.DayArchiveView):
+	model = Transaction
+	date_field = 'create_datetime'
+	month_format = '%m'
+	template_name = 'finance/transaction/transaction_archive_day.html'
 	allow_future = True
 	
 class TransactionDetailView(generic.DetailView):
@@ -64,6 +68,11 @@ class TransactionEditView(generic.UpdateView):
 	model = Transaction
 	fields = '__all__'
 	template_name = 'finance/transaction/transaction_edit.html'
+	
+	def form_valid(self, form):
+		if not form.cleaned_data.get('from_account') and not form.cleaned_data.get('on_account'):
+			raise forms.ValidationError('Вкажіть хоча б один рахунок для проведення трансакції')
+		return super().form_valid(form)
 	
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object()
