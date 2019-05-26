@@ -1,0 +1,33 @@
+{% extends 'finance/base.html' %}
+
+{% block meta_title %} Планування витрат {% endblock meta_title %}
+{% block title_page %} Планування витрат {% endblock title_page %}
+
+{% block content %}
+
+<form action="{% url 'finance:plan_spending_category_add' %}" method="POST">
+{% csrf_token %}
+  <table>
+    <thead>
+	  <tr>
+	    <td>&#35;</td>
+	    <td>Категорія</td>
+		<td>Прогнозна сума</td>
+	    <td>Валюта</td>
+	  </tr>
+	</thead>
+	<tbody>
+	{% for category in categories %}
+	  <tr>
+	    <td>{{ forloop.counter }}</td>
+		<td>{{ category.name }}</td>
+		<td>{{ form.amount }}</td>
+		<td>{{ form.currency }}</td>
+	  </tr>
+	{% endfor %}
+	</tbody>
+  </table>
+  <input type="submit" name="submit" value="Зберегти">
+</form>
+
+{% endblock content %}
