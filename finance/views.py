@@ -301,3 +301,43 @@ class PlaceDeleteView(generic.DeleteView):
 	template_name = 'finance/place/place_confirm_delete.html'
 	success_url = reverse_lazy('finance:places_list')
 	
+
+
+class PlanCategorySpendingAddForm(forms.ModelForm):
+	
+	class Meta:
+		model = Transaction
+		fields = [amount, currency, category, create_datetime, notes]
+	
+#Planning views
+class PlanCategorySpendingAddView(generic.CreateView):
+	form_class = PlanCategorySpendingAddForm
+	template_name = 'finance/planning/plan_category_spending_add.html'
+	
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['categories'] = Category.objects.all()
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	

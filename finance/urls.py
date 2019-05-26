@@ -62,5 +62,5 @@ urlpatterns = [
 	#path('statistics', name='statistics'),
 	
 	#Planning urls
-	#path('planning', name='planning'),
+	path('planning/spending/category/add', views.plan_category_spending_add, name='plan_spending_category_add'),
 ]
