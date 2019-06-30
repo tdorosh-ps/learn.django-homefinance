@@ -17,10 +17,10 @@
 	  </tr>
 	</thead>
 	<tbody>
-	{% for category in categories %}
+	{% for form in formset %}
 	  <tr>
 	    <td>{{ forloop.counter }}</td>
-		<td>{{ category.name }}</td>
+		<td>{{ form.category }}</td>
 		<td>{{ form.amount }}</td>
 		<td>{{ form.currency }}</td>
 	  </tr>

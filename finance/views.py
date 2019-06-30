@@ -1,5 +1,8 @@
 from decimal import *
 from django import forms
+from django.forms import formset_factory
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
@@ -306,31 +309,21 @@ class PlaceDeleteView(generic.DeleteView):
 class PlanCategorySpendingAddForm(forms.ModelForm):
 	class Meta:
 		model = Transaction
-		fields = ['amount', 'currency']
+		fields = ['category', 'amount', 'currency']
 	
 #Planning views
-class PlanCategorySpendingAddView(generic.CreateView):
-	form_class = PlanCategorySpendingAddForm
-	template_name = 'finance/planning/plan_category_spending_add.html'
-	success_url = reverse_lazy('finance:transactions_list')
+def plan_spending_category_add(request):
+	categories = Category.objects.all()
+	PlanCategorySpendingAddFormSet = formset_factory(PlanCategorySpendingAddForm, extra = categories.count())
+	if request.method == 'POST':
+		formset = PlanCategorySpendingAddFormSet(request.POST)
+		if formset.is_valid():
+			pass
+		return HttpResponseRedirect(reverse('finance:transactions_list'))
+	else:
+		formset = PlanCategorySpendingAddFormSet()
 	
-	def get_context_data(self, **kwargs):
-		context = super().get_context_data(**kwargs)
-		context['categories'] = Category.objects.all()
-		return context
-		
-	def post(self, request, *args, **kwargs):
-		categories = Category.objects.all()
-		amounts = request.POST.getlist('amount')
-		currencies = request.POST.getlist('currency')
-		
-		for index in range(categories.count()):
-			if amounts[index] != 0:
-				data = {'amount': amounts[index], 
-						'currency': Currency.objects.get(pk=currencies[index]),
-						'category': categories[index]}
-				Transaction.objects.create(**data)
-		return super().post(request, *args, **kwargs)
+	return render(request, 'finance/planning/plan_category_spending_add.html', {'formset': formset})
 
 
 
