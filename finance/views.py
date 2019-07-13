@@ -324,7 +324,9 @@ def plan_spending_category_add(request):
 		formset = PlanCategorySpendingAddFormSet()
 	
 	return render(request, 'finance/planning/plan_category_spending_add.html', {'formset': formset})
-
+    
+def plan_spending_category_add(edit):
+    pass
 
 
 

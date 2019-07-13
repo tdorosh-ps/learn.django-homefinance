@@ -63,4 +63,5 @@ urlpatterns = [
 	
 	#Planning urls
 	path('planning/spending/category/add', views.plan_spending_category_add, name='plan_spending_category_add'),
+    path('planning/spending/category/edit'), views.plan_spending_category_edit, name='plan_spending_category_add'),
 ]
